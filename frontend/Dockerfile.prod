@@ -10,9 +10,13 @@ COPY . .
 
 RUN mkdir -p /app/dist && chmod -R 777 /app/dist
 
+RUN echo "Directory structure before build:" && ls -R /app
+
 RUN npm run build
 
 FROM nginx:latest
+
+RUN echo "Directory structure after build:" && ls -R /app
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
