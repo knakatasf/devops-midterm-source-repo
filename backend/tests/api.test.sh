@@ -1,4 +1,4 @@
-URL="http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' infra-repo-backend-1):8800/books"
+URL="http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' backend):8800/books"
 
 DATA='{
   "title": "Test Book",
