@@ -8,16 +8,15 @@ RUN npm install && npm install -g vite
 
 COPY . .
 
-RUN echo "Directory structure before build:" && ls -R /dist
-
 RUN npm run build
 
-RUN echo "Directory structure after build:" && ls -R /dist
+RUN echo "Directory structure after build:" && ls -R .
 
 FROM nginx:latest
 
-COPY --from=build dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
+
