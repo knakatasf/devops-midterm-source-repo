@@ -5,6 +5,7 @@ import axios from 'axios';
 const Update = () => {
 
     const API_BASE_URL = import.meta.env.API_BASE_URL || "http://localhost:8800";
+    console.log("API_BASE_URL is :", API_BASE_URL);
     const [book, setBook] = useState({
         title: "",
         description: "",

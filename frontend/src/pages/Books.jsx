@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 const Books = () => {
 
     const API_BASE_URL = import.meta.env.API_BASE_URL || "http://localhost:8800";
+
     const [books, setBooks] = useState([])
 
 useEffect(()=>{
 const fetchAllBooks = async ()=>{
     try {
+        console.log("API_BASE_URL is :", API_BASE_URL);
       const res = await axios.get(`${API_BASE_URL}/books`)
       setBooks(res.data)
       console.log(res)

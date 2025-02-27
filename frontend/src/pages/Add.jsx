@@ -21,6 +21,7 @@ const Add = () => {
    const handleClick = async e =>{
     e.preventDefault()
     try{
+        console.log("API_BASE_URL is :", API_BASE_URL);
         await axios.post(`${API_BASE_URL}/books`, book)
         navigate("/")
     }catch(err){
