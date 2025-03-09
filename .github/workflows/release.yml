@@ -22,16 +22,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Set up Git credentials
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: npx semantic-release
-
 
       - name: Trigger Infra Repo Promotion Workflow
         run: |
