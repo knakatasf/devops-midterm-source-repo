@@ -1,6 +1,6 @@
 {
   "branches": ["main"],
-  "repositoryUrl": "https://github.com/knakatasf/devops-midterm-source-repo",
+  "repositoryUrl": "https://github.com/knakatasf/devops-midterm-source-repo.git",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
