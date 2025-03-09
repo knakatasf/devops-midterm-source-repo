@@ -8,6 +8,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -25,8 +28,6 @@ jobs:
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        permissions:
-            contents: write
         run: npx semantic-release
 
       - name: Trigger Infra Repo Promotion Workflow
