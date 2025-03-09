@@ -36,4 +36,4 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
           https://api.github.com/repos/knakatasf/devops-midterm-infra-repo/dispatches \
-          -d '{"event_type": "promote-release", "client_payload": { "tag": "${{ github.ref_name }}" }}'
+          -d '{"event_type": "promote-release", "client_payload": { "tag": "${{ steps.semantic_release.outputs.new_release_version }}" }}'
