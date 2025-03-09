@@ -24,13 +24,13 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: npx semantic-release
 
       - name: Trigger Infra Repo Promotion Workflow
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.TOKEN }}" \
           https://api.github.com/knakatasf/devops-midterm-infra-repo/dispatches \
           -d '{"event_type": "promote-release", "client_payload": { "tag": "${{ github.ref_name }}" }}'
