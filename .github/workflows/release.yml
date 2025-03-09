@@ -26,14 +26,38 @@ jobs:
         run: npm ci
 
       - name: Run Semantic Release
+        id: semantic_release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: npx semantic-release
+        run: |
+          # Run semantic-release and capture the output
+          npx semantic-release | tee release_output.txt
+          
+          # Extract the version from semantic-release output
+          VERSION=$(grep -o 'Published release [0-9]\+\.[0-9]\+\.[0-9]\+' release_output.txt | awk '{print $3}' || echo "")
+          
+          if [ -n "$VERSION" ]; then
+            echo "new_release_version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Release version: $VERSION"
+          else
+            echo "No new release was published"
+            exit 0
+          fi
 
       - name: Trigger Infra Repo Promotion Workflow
+        if: steps.semantic_release.outputs.new_release_version != ''
         run: |
+          RC_VERSION="rc$(date +'%Y%m%d%H%M')"
+          echo "Promoting to $RC_VERSION"
+          
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
           https://api.github.com/repos/knakatasf/devops-midterm-infra-repo/dispatches \
-          -d '{"event_type": "promote-release", "client_payload": { "tag": "${{ steps.semantic_release.outputs.new_release_version }}" }}'
+          -d '{
+            "event_type": "promote-release", 
+            "client_payload": { 
+              "tag": "${{ steps.semantic_release.outputs.new_release_version }}", 
+              "rc_label": "'"$RC_VERSION"'"
+            }
+          }'
