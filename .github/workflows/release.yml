@@ -25,6 +25,8 @@ jobs:
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        permissions:
+            contents: write
         run: npx semantic-release
 
       - name: Trigger Infra Repo Promotion Workflow
