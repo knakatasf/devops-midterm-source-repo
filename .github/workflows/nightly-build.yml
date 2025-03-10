@@ -31,10 +31,17 @@ jobs:
           docker build -f backend/Dockerfile -t myapp-backend:nightly-${{ env.date_tag }} .
           docker build -f frontend/Dockerfile -t myapp-frontend:nightly-${{ env.date_tag }} .
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
       - name: Login to AWS ECR
         run: |
-          aws ecr get-login-password --region us-east-1 | \
-          docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_URL }}
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_URL }}
 
       - name: Push Nightly Docker Images to ECR
         run: |
