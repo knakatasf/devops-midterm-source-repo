@@ -22,6 +22,7 @@ jobs:
         with:
           node-version: '20.8.1'
 
+
       - name: Install dependencies
         run: npm ci
 
@@ -30,10 +31,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          # Run semantic-release and capture the output
           npx semantic-release | tee release_output.txt
           
-          # Extract the version from semantic-release output
           VERSION=$(grep -o 'Published release [0-9]\+\.[0-9]\+\.[0-9]\+' release_output.txt | awk '{print $3}' || echo "")
           
           if [ -n "$VERSION" ]; then
@@ -43,7 +42,7 @@ jobs:
             echo "No new release was published"
             exit 0
           fi
-          
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
