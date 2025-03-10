@@ -60,11 +60,15 @@ jobs:
         run: |
           docker build -t myapp-frontend:$new_release_version ./frontend
           docker tag myapp-frontend:$new_release_version ${{ secrets.AWS_ECR_REPO }}:frontend-$new_release_version
+          docker tag myapp-frontend:$new_release_version ${{ secrets.AWS_ECR_REPO }}:frontend-latest
           docker push ${{ secrets.AWS_ECR_REPO }}:frontend-$new_release_version
-
+          docker push ${{ secrets.AWS_ECR_REPO }}:frontend-latest
+      
           docker build -t myapp-backend:$new_release_version ./backend
           docker tag myapp-backend:$new_release_version ${{ secrets.AWS_ECR_REPO }}:backend-$new_release_version
+          docker tag myapp-backend:$new_release_version ${{ secrets.AWS_ECR_REPO }}:backend-latest
           docker push ${{ secrets.AWS_ECR_REPO }}:backend-$new_release_version
+          docker push ${{ secrets.AWS_ECR_REPO }}:backend-latest
 
       - name: Trigger Infra Repo Promotion Workflow
         run: |
