@@ -84,4 +84,3 @@ jobs:
               "rc_label": "'"$RC_VERSION"'"
             }
           }'
-          
